@@ -21,7 +21,45 @@ export function Layout(content, pages = []) {
     `;
 }
 
-// Initialize layout
+// Initialize layout and routing
+async function initializeApp() {
+    const root = document.getElementById('root');
+    const pages = ['/', '/features', '/contactus', '/about'];
+
+    async function loadPage(path) {
+        try {
+            const modulePath = path === '/' ? './pages/page.js' : `./pages${path}/page.js`;
+            const module = await import(modulePath);
+            const content = module.default();
+            root.innerHTML = Layout(content, pages);
+
+            // Add click event listeners to navigation links
+            document.querySelectorAll('a[data-page]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = e.target.dataset.page;
+                    loadPage(page);
+                });
+            });
+        } catch (error) {
+            console.error('Error loading page:', error);
+        }
+    }
+
+    // Load initial page
+    const initialPath = window.location.hash.slice(1) || '/';
+    await loadPage(initialPath);
+
+    // Handle browser back/forward buttons
+    window.addEventListener('hashchange', () => {
+        const path = window.location.hash.slice(1) || '/';
+        loadPage(path);
+    });
+}
+
+// Start the application
+initializeApp();
+
 document.addEventListener('DOMContentLoaded', async () => {
     const root = document.getElementById('root');
     

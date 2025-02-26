@@ -1,6 +1,7 @@
 # Pure JavaScript Component System
 
-A lightweight, module-based component system built with vanilla JavaScript, featuring dynamic routing and a simple component architecture.
+A lightweight, module-based component system built with vanilla 
+JavaScript, featuring dynamic routing and a simple component architecture.
 
 ## Project Structure
 
