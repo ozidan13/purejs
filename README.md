@@ -8,11 +8,13 @@ JavaScript, featuring dynamic routing and a simple component architecture.
 ```
 ├── index.html          # Main entry point and HTML template
 ├── layout.js           # Layout component and navigation system
+├── global.css         # Global CSS styles
 ├── pages/              # Pages directory containing all route components
 │   ├── page.js        # Home page component
 │   ├── about/         # About page route directory
 │   ├── contactus/     # Contact Us page route directory
-│   └── features/      # Features page route directory
+│   ├── features/      # Features page route directory
+│   └── products/      # Products page with API integration
 ```
 
 ## Features
@@ -23,6 +25,9 @@ JavaScript, featuring dynamic routing and a simple component architecture.
 - Folder-based routing
 - Responsive navigation
 - TailwindCSS for Styling
+- API Integration with async/await support
+- Dynamic data fetching and rendering
+- Error handling for API requests
 
 ## How It Works
 
@@ -81,6 +86,7 @@ The project currently includes the following routes:
 - **About** (`/about`): Information about the project
 - **Contact Us** (`/contactus`): Contact information and form
 - **Features** (`/features`): List of project features
+- **Products** (`/products`): Dynamic product listing with data fetching
 
 ## Getting Started
 
