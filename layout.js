@@ -30,8 +30,8 @@ async function initializeApp() {
         try {
             const modulePath = path === '/' ? './pages/page.js' : `./pages${path}/page.js`;
             const module = await import(modulePath);
-            const content = module.default();
-            root.innerHTML = Layout(content, pages);
+            const content = await module.default();
+            root.innerHTML = Layout(await content, pages);
 
             // Add click event listeners to navigation links
             document.querySelectorAll('a[data-page]').forEach(link => {
@@ -81,15 +81,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (page === '/') {
                     modulePath = './pages/page.js';
                 } else {
-                    // Remove leading slash and construct path
                     const pageName = page.substring(1);
                     modulePath = `./pages/${pageName}/page.js`;
                 }
                 
                 const module = await import(modulePath);
-                root.innerHTML = Layout(module.default(), pages);
+                const content = await module.default();
+                root.innerHTML = Layout(content, pages);
                 
-                // Update URL hash to reflect current page
                 window.location.hash = page;
             } catch (error) {
                 console.error('Error loading page:', error);

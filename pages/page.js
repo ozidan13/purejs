@@ -1,32 +1,5 @@
 export default function HomePage() {
-    // fetch a product list from the API
-    /*async function fetchProducts() {
-        try {
-            const response = await fetch('https://api.example.com/products');
-            const products = await response.json();
-            
-            const productsList = products.map(product => `
-                <div class="product">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p>Price: $${product.price}</p>
-                </div>
-            `).join('');
-            
-            document.querySelector('.page').insertAdjacentHTML('beforeend', productsList);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    }
     
-    // Call the fetch function when the page loads
-    fetchProducts();*/
-
-    const testFun = () => {
-        return `
-            <h1>test function</h1>
-        `;
-    }
     
     return `
         <div class="page min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
