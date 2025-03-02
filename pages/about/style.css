@@ -1,0 +1,36 @@
+.about-page {
+    --about-spacing: 1.5rem;
+}
+
+.about-page .about-header {
+    text-align: center;
+    margin-bottom: var(--about-spacing);
+}
+
+.about-page .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--about-spacing);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.about-page .team-section {
+    margin-top: var(--about-spacing);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--about-spacing);
+}
+
+.about-page .team-member {
+    text-align: center;
+    padding: 1rem;
+    background: var(--background-color);
+    border-radius: 6px;
+    transition: transform 0.2s ease;
+}
+
+.about-page .team-member:hover {
+    transform: scale(1.02);
+}

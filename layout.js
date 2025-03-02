@@ -26,36 +26,72 @@ async function initializeApp() {
     const root = document.getElementById('root');
     const pages = ['/', '/features', '/contactus', '/about'];
 
+    // Function to load and inject page-specific styles
+    function loadPageStyles(path) {
+        // Remove any previously loaded page-specific styles
+        const existingStyles = document.querySelectorAll('link[data-page-style]');
+        existingStyles.forEach(style => style.remove());
+
+        // Determine the style path based on the current page
+        const stylePath = path === '/' ? './pages/style.css' : `./pages${path}/style.css`;
+
+        // Create and inject the new style element
+        const styleLink = document.createElement('link');
+        styleLink.rel = 'stylesheet';
+        styleLink.href = stylePath;
+        styleLink.setAttribute('data-page-style', 'true');
+        document.head.appendChild(styleLink);
+    }
+
     async function loadPage(path) {
         try {
-            const modulePath = path === '/' ? './pages/page.js' : `./pages${path}/page.js`;
-            const module = await import(modulePath);
-            const content = await module.default();
-            root.innerHTML = Layout(await content, pages);
+            // Load page-specific styles
+            loadPageStyles(path);
 
-            // Add click event listeners to navigation links
-            document.querySelectorAll('a[data-page]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const page = e.target.dataset.page;
-                    loadPage(page);
-                });
+            // Load page content
+            const pagePath = path === '/' ? './pages/page.js' : `./pages${path}/page.js`;
+            const pageModule = await import(pagePath);
+            const pageContent = pageModule.default();
+            
+            // Render the page with layout
+            root.innerHTML = Layout(pageContent, pages);
+
+            // Update active state in navigation
+            document.querySelectorAll('nav a').forEach(link => {
+                if (link.dataset.page === path) {
+                    link.classList.add('text-purple-600');
+                } else {
+                    link.classList.remove('text-purple-600');
+                }
             });
         } catch (error) {
             console.error('Error loading page:', error);
+            root.innerHTML = '<div class="text-red-500">Error loading page</div>';
         }
     }
 
-    // Load initial page
-    const initialPath = window.location.hash.slice(1) || '/';
-    await loadPage(initialPath);
+    // Set up navigation event listeners
+    root.addEventListener('click', (e) => {
+        if (e.target.matches('[data-page]')) {
+            e.preventDefault();
+            const path = e.target.dataset.page;
+            window.location.hash = path;
+        }
+    });
 
-    // Handle browser back/forward buttons
+    // Handle initial load and navigation
     window.addEventListener('hashchange', () => {
         const path = window.location.hash.slice(1) || '/';
         loadPage(path);
     });
+
+    // Load initial page
+    const initialPath = window.location.hash.slice(1) || '/';
+    loadPage(initialPath);
 }
+
+// Initialize the application when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeApp);
 
 // Start the application
 initializeApp();
